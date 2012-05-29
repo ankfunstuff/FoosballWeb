@@ -4,7 +4,7 @@ namespace FoossballPlayars.QueryContext.Teams
 {
 	public class Team : IEquatable<Team>
 	{
-		public const int InitialScore = 1501;
+		public const int InitialScore = 1500;
 		public string Offensive { get; private set; }
 		public string Defensive { get; private set; }
 
