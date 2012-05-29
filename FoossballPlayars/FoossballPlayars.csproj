@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{17803B39-56A5-4D03-AF98-B95DB1C590BB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FoossballPlayars</RootNamespace>
+    <AssemblyName>FoossballPlayars</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Ankiro.Framework, Version=0.0.240.15843, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Ankiro.Framework\Ankiro.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CommandContext\Competition.cs" />
+    <Compile Include="CommandContext\CompetitionRepository.cs" />
+    <Compile Include="CommandContext\ScoreValidator.cs" />
+    <Compile Include="Commands\PlayGameCommand.cs" />
+    <Compile Include="Commands\RegisterPlayarCommand.cs" />
+    <Compile Include="Events\PlayerAddedToCompetition.cs" />
+    <Compile Include="Events\Score.cs" />
+    <Compile Include="QueryContext\Activity.cs" />
+    <Compile Include="QueryContext\ISignaler.cs" />
+    <Compile Include="QueryContext\GamePercentage.cs" />
+    <Compile Include="QueryContext\Streak.cs" />
+    <Compile Include="QueryContext\Teams\Team.cs" />
+    <Compile Include="QueryContext\Teams\TeamService.cs" />
+    <Compile Include="QueryContext\Teams\ITeamService.cs" />
+    <Compile Include="QueryContext\PlayarName.cs" />
+    <Compile Include="QueryContext\PlayarStatisistics.cs" />
+    <Compile Include="QueryContext\ScoreHistoryEntry.cs" />
+    <Compile Include="Services\ChristiansScoreCalculator.cs" />
+    <Compile Include="Services\EloCalculator.cs" />
+    <Compile Include="Services\EloCalculatorGoal.cs" />
+    <Compile Include="Services\EloRating.cs" />
+    <Compile Include="Services\EloRatingGoal.cs" />
+    <Compile Include="Services\GameService.cs" />
+    <Compile Include="CommandContext\PlayarRepository.cs" />
+    <Compile Include="Services\IGameService.cs" />
+    <Compile Include="Services\IScoreCalculator.cs" />
+    <Compile Include="Services\ScoreCalculatorBase.cs" />
+    <Compile Include="Services\ScoreResult.cs" />
+    <Compile Include="Services\SimpleScoreCalculator.cs" />
+    <Compile Include="Services\SlightlyMoreComplexScoreCalculator.cs" />
+    <Compile Include="QueryContext\GameHandler.cs" />
+    <Compile Include="Events\GamePlayed.cs" />
+    <Compile Include="CommandContext\Playar.cs" />
+    <Compile Include="Events\PlayarRegistered.cs" />
+    <Compile Include="QueryContext\IScoreQuery.cs" />
+    <Compile Include="QueryContext\PlayarScore.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryContext\ScoreQuery.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\EventSourcing\EventSourcing.csproj">
+      <Project>{8E147BE6-F3AA-4C3C-94EC-E19D5F2F2091}</Project>
+      <Name>EventSourcing</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
