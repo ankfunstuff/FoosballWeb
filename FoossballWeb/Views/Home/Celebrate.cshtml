@@ -1,0 +1,38 @@
+﻿@using FoossballWeb.Models
+@model CelebrationViewModel
+@{
+    ViewBag.Title = "Enter result for a game won";
+}
+@if (Model.Scores.Count() < 4)
+{
+    return;
+}
+<h2>
+    Celebrate victory</h2>
+@using (Html.BeginForm("Celebrate", "Home", FormMethod.Post))
+{
+    <table style="border: none;">
+        <tbody>
+            <tr>
+                <td style="border-top: 2px solid red">
+                    @Html.DropDownListFor(x => x.RedOffensive, new SelectList(Model.Scores, "Id", "Name"))
+                    @Html.DropDownListFor(x => x.RedDefensive, new SelectList(Model.Scores, "Id", "Name"))
+                    @Html.DropDownListFor(x => x.ScoreRed, Enumerable.Range(0, 26).Select(x => new SelectListItem() { Text = x.ToString(), Value = x.ToString() }))
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <img src="../../Content/table.jpg" style="width: 200px; height: 200px;" />
+                </td>
+            </tr>
+            <tr>
+                <td style="border-bottom: 2px solid blue;">
+                    @Html.DropDownListFor(x => x.BlueDefensive, new SelectList(Model.Scores, "Id", "Name"))
+                    @Html.DropDownListFor(x => x.BlueOffensive, new SelectList(Model.Scores, "Id", "Name"))
+                    @Html.DropDownListFor(x => x.ScoreBlue, Enumerable.Range(0, 26).Select(x => new SelectListItem() { Text = x.ToString(), Value = x.ToString() }))
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="Celebrate" />
+}

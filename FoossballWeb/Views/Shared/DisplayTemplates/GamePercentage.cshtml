@@ -1,0 +1,28 @@
+﻿@using FoossballPlayars.QueryContext
+@model GamePercentage
+@{
+	var id = Guid.NewGuid();
+		   }
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    google.load("visualization", "1", { packages: ["corechart"] });
+    google.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Name');
+      data.addColumn('number', 'Score');
+        data.addRows([
+                @Html.Raw("['Winning', " + Model.WinPercentage + "],\n")
+            @Html.Raw("['Loosing', " + Model.LoosingPercentage + "],\n")
+            ]);
+        var options = {
+            width: 200, height: 200,
+            colors: ['#0033CC', '#FF5C5C'],
+            legend: { position: 'none'}
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('@id'));
+        chart.draw(data, options);
+    }
+</script>
+<div id="@id"></div>

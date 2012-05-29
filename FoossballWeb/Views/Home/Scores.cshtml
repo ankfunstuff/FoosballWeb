@@ -1,0 +1,28 @@
+﻿@using FoossballPlayars.QueryContext
+@model IEnumerable<PlayarStatisistics>
+<h2>
+    Top Scores</h2>
+<table>
+	<thead>
+		<tr>
+			<th>
+				Playar
+			</th>
+			<th>
+				Score
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var playarScore in Model)
+		{
+			<tr>
+				<td>@Html.ActionLink(playarScore.Name.ToString(), "GetScoreHistory", "Home", new { id = playarScore.Id }, null)
+				</td>
+				<td>@playarScore.Score
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+@Html.ActionLink("All Players", "AllPlayers")

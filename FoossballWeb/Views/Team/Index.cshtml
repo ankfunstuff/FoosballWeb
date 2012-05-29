@@ -1,0 +1,46 @@
+﻿@model IEnumerable<FoossballPlayars.QueryContext.Teams.Team>
+@{
+    ViewBag.Title = "All Teams";
+}
+<h2>
+    All Teams</h2>
+<div class="contentBox">
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Offensive
+                </th>
+                <th>
+                    Defensive
+                </th>
+                <th>
+                    Team Score
+                </th>
+                <th>
+                    Winning
+                </th>
+                <th>
+                    Games Played
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var team in Model)
+            {
+                <tr>
+                    <td>@team.Offensive
+                    </td>
+                    <td>@team.Defensive
+                    </td>
+                    <td>@team.Score
+                    </td>
+                    <td>@team.Percentage.WinPercentage %
+                    </td>
+                    <td>@team.Percentage.GamesPlayed
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

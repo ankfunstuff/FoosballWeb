@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Add Player";
+}
+<h2>
+    New Player</h2>
+<p>
+    @using (Html.BeginForm("Register", "Home"))
+    {
+        <p>
+            <input type="text" name="playarName" placeholder='Player Name' /></p>
+        <input type="submit" value="Add" />
+    }
+</p>

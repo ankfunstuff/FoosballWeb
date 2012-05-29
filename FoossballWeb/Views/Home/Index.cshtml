@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Foosball Web";
+}
+ <!-- Used for SignalR -->
+<script src="@Url.Content("~/Scripts/jquery-1.6.4.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.signalR.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/signalr/hubs")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        // Proxy created on the fly
+        var webSignaler = $.connection.webSignaler;
+
+        // Declare a function on the chat hub so the server can invoke it
+        webSignaler.addMessage = function () {
+            $.ajax(
+                        {
+                            url: '/Home/Scores',
+                            success: function (newContent) {
+                                $("#scores").html(newContent);
+                            }
+                        });
+            $.ajax(
+                        {
+                            url: '/Home/Activity',
+                            success: function (newContent) {
+                                $("#activity").html(newContent);
+                            }
+                        });
+        };
+        // Start the connection
+        $.connection.hub.start();
+    });
+        </script>
+<div id="activity">
+    @Html.Action("Activity")
+</div>
+<div id="scores" class="contentBox">
+    @Html.Action("Scores")
+</div>
+<div id="teams" class="contentBox">
+	@Html.Action("BestTeams", "Team")
+</div>
+<div id="celebration" class="contentBox">
+    @Html.Action("Celebrate")
+</div>
+<div id="vinkekat" class="contentBox">
+	@Html.Action("CurrentVinkekat")
+</div>
+<div id="addPlayar" class="contentBox">
+    @Html.Action("AddPlayar")
+</div>

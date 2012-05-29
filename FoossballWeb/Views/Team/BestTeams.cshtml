@@ -1,0 +1,32 @@
+﻿@model IEnumerable<FoossballPlayars.QueryContext.Teams.Team>
+<h2>
+    Top Teams</h2>
+<table>
+    <thead>
+        <tr>
+            <th>
+                Offensive
+            </th>
+            <th>
+                Defensive
+            </th>
+            <th>
+                Team Score
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var team in Model)
+        {
+            <tr>
+                <td>@team.Offensive
+                </td>
+                <td>@team.Defensive
+                </td>
+                <td>@team.Score
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.ActionLink("All Teams", "Index")

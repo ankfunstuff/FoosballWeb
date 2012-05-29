@@ -1,0 +1,8 @@
+﻿@using Ankiro.Framework.Extensions
+@model IEnumerable<FoossballPlayars.QueryContext.Activity>
+<h2>Activity</h2>
+@foreach (var activity in @Model.Take(10))
+{
+	<div>@activity.Message</div>
+    <div style="margin-bottom: 10px; color: #aaa;">@activity.Timestamp.ToPrettyString()</div>
+} 

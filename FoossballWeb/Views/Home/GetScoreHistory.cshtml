@@ -1,0 +1,69 @@
+﻿@using Ankiro.Framework.Extensions
+@model FoossballWeb.Models.PlayarDetailsViewModel
+           @{
+               ViewBag.Title = @Model.PlayarStatisistics.Name;
+}
+<h2>
+    @Model.PlayarStatisistics.Name
+</h2>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+	google.load("visualization", "1", {packages:["corechart"]});
+	google.setOnLoadCallback(drawChart);
+	function drawChart() {
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', 'Date');
+		data.addColumn('number', 'Score');
+		data.addRows([
+				@Html.Raw(Model.PlayarStatisistics.ScoreHistory.Select(x => string.Format("['{0}', {1}]", x.Item2, x.Item1)).ToAggregateString(",\n"))
+            ]);
+
+        var options = {
+            width: 800, 
+            height: 600,
+            title: 'Playar Performance',
+            curveType: 'function',
+            series: {},
+            legend: { position: 'none'},
+            vAxis: 
+            {
+                viewWindowMode: 'explicit',
+            	viewWindow:
+                {
+                    max: @Model.MaxScore+10,
+                    min: @Model.MinScore-10
+                }
+            },
+            hAxis:
+            	{
+            	    textPosition: 'none'            		
+            	}
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('scoreChart'));
+        chart.draw(data, options);
+    }
+</script>
+<div>
+    @{
+        if (Model.PlayarStatisistics.Badges.Any())
+        {
+            <b style="color: red;">
+                @Html.Raw(Model.PlayarStatisistics.Badges.ToAggregateString("<br/> "))</b>                
+        }
+	}
+
+</div>
+    <div class="contentBox">
+    <h3>Total</h3>
+    @Html.DisplayFor(x=>x.PlayarStatisistics.Total)
+    <h3>Offensive</h3>
+    @Html.DisplayFor(x=>x.PlayarStatisistics.Offensive)
+	<h3>Defensive</h3>
+	@Html.DisplayFor(x=>x.PlayarStatisistics.Defensive)
+</div>
+<div id="scoreChart" style="float: left">
+</div>
+
+

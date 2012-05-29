@@ -1,0 +1,12 @@
+﻿@model Tuple<FoossballPlayars.QueryContext.PlayarName, FoossballPlayars.QueryContext.PlayarName>
+<h2>
+    Current vinkekat holder
+</h2>
+@if (Model == null) {
+     <p>No one has the vinkekat yet.</p>
+  }
+else {
+    <img src="../../Content/cat.gif" alt="" width="200"/>
+  <p>@Model.Item1 and @Model.Item2 has the vinkekat.</p>
+}
+  

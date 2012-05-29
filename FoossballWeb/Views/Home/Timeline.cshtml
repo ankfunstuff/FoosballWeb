@@ -1,0 +1,49 @@
+﻿@using Ankiro.Framework.Extensions
+@using FoossballPlayars.QueryContext
+@model ScoreHistory
+@{
+    ViewBag.Title = "Home Page";
+}
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    google.load("visualization", "1", { packages: ["corechart"] });
+    google.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Date');
+         @foreach(var name in Model.GetNames())
+        {
+            @Html.Raw(string.Format("data.addColumn('number', '{0}');\n", name))
+        }
+         @foreach(var name in Model.GetScores())
+        {
+            @Html.Raw(string.Format("data.addRow(['{0}', {1}]);\n", name.Key.ToShortDateString(), name.Value.Select(x=>x.Score).ToAggregateString(",")))
+        }
+//        data.addColumn('number', 'Niels');
+        //data.addColumn('number', 'Morten');
+        //data.addColumn('number', 'Andreas');
+//        data.addRows([
+//                ['2003', 100, 40, 143],
+//                ['2004', 100, 40, 143],
+//                ['2005', 117, 46, 160],
+//                ['2006', 86, 58, 149],
+//                ['2007', 103, 54, undefined],
+//                ['2008', 103, 54, 152]
+//            ]);
+       // data.addRow(['Niels', 100]);
+        var options = {
+            width: 400, height: 240,
+            title: 'Timeline'
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById('timeline'));
+        chart.draw(data, options);
+    }
+</script>
+
+<div id="timeline"></div>
+
+        @*@foreach(var i in Model)
+        {
+            @Html.Raw("data.addColumn('number', '" + i.Name +"');")
+        }*@

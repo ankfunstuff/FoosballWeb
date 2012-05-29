@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoossballPlayars", "Foossba
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.FoossballPlayars", "Test.FoossballPlayars\Test.FoossballPlayars.csproj", "{4167C127-E6BF-44BB-A330-E13056515484}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoossballWeb", "FoossballWeb\FoossballWeb.csproj", "{A941F9E4-469B-4761-BA60-84D1F34F0CE1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RavenPersistance", "RavenPersistance\RavenPersistance.csproj", "{12C7BA55-0B5B-482A-8D8B-FE73C67D5CB0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilePersistance", "FilePersistance\FilePersistance.csproj", "{18F8BCBF-CEFE-4F97-BDAF-880EC2AE4DFD}"
@@ -19,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2B03BC
 	ProjectSection(SolutionItems) = preProject
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoossballWeb", "FoossballWeb\FoossballWeb.csproj", "{A941F9E4-469B-4761-BA60-84D1F34F0CE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,16 +60,6 @@ Global
 		{4167C127-E6BF-44BB-A330-E13056515484}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4167C127-E6BF-44BB-A330-E13056515484}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4167C127-E6BF-44BB-A330-E13056515484}.Release|x86.ActiveCfg = Release|Any CPU
-		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Release|x86.ActiveCfg = Release|Any CPU
 		{12C7BA55-0B5B-482A-8D8B-FE73C67D5CB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{12C7BA55-0B5B-482A-8D8B-FE73C67D5CB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12C7BA55-0B5B-482A-8D8B-FE73C67D5CB0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -100,6 +90,16 @@ Global
 		{99615F42-4DEF-43EB-BF0C-D1E93B87D40E}.Release|Mixed Platforms.Build.0 = Release|x86
 		{99615F42-4DEF-43EB-BF0C-D1E93B87D40E}.Release|x86.ActiveCfg = Release|x86
 		{99615F42-4DEF-43EB-BF0C-D1E93B87D40E}.Release|x86.Build.0 = Release|x86
+		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A941F9E4-469B-4761-BA60-84D1F34F0CE1}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
