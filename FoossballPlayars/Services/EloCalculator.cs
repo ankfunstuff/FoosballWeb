@@ -5,11 +5,11 @@ namespace FoossballPlayars.Services
 {
     public class EloCalculator : ScoreCalculatorBase, IScoreCalculator
     {
-    	public ScoreResult Calculate(PlayarStatisistics redOffensive, PlayarStatisistics redDefensive, PlayarStatisistics blueOffensive, PlayarStatisistics blueDefensive, int goalsRed, int goalsBlue, int gamesPrPlayer)
+    	public ScoreResult Calculate(PlayarStatisistics redOffensive, PlayarStatisistics redDefensive, PlayarStatisistics blueOffensive, PlayarStatisistics blueDefensive, int goalsRed, int goalsBlue, int gamesPrPlayer, DateTime dateTime)
         {
             var rating = new EloRating( redOffensive.Score + redDefensive.Score, blueOffensive.Score + blueDefensive.Score, goalsRed, goalsBlue, gamesPrPlayer);
 			var winningPrice = Math.Max(rating.Point1, rating.Point2) + Math.Abs(goalsBlue - goalsRed);
-        	return GetScoreResult(redOffensive, redDefensive, blueOffensive, blueDefensive, goalsRed, goalsBlue, winningPrice);
+        	return GetScoreResult(redOffensive, redDefensive, blueOffensive, blueDefensive, goalsRed, goalsBlue, winningPrice, dateTime);
         }
 
 		protected override Events.Score GetWinningScore(PlayarStatisistics playar, double winningPrice)

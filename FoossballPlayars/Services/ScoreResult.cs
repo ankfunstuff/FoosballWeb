@@ -1,16 +1,18 @@
 using FoossballPlayars.Events;
+using FoossballPlayars.QueryContext;
 
 namespace FoossballPlayars.Services
 {
 	public class ScoreResult
 	{
-        public ScoreResult(Score redOffensive, Score redDefensive, Score blueOffensive, Score blueDefensive, double points)
+        public ScoreResult(Score redOffensive, Score redDefensive, Score blueOffensive, Score blueDefensive, double points, Activity story)
 	    {
 	        RedOffensive = redOffensive;
 	        RedDefensive = redDefensive;
 	        BlueOffensive = blueOffensive;
 	        BlueDefensive = blueDefensive;
             Points = points;
+        	Story = story;
 	    }
 
         public Score RedOffensive { get; private set; }
@@ -19,5 +21,6 @@ namespace FoossballPlayars.Services
         public Score BlueDefensive { get; private set; }
 
         public double Points { get; private set; }
+		public Activity Story { get; set; }
 	}
 }

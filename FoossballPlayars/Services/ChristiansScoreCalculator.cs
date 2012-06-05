@@ -5,7 +5,7 @@ namespace FoossballPlayars.Services
 {
     public class ChristiansScoreCalculator : ScoreCalculatorBase, IScoreCalculator
     {
-        public ScoreResult Calculate(PlayarStatisistics redOffensive, PlayarStatisistics redDefensive, PlayarStatisistics blueOffensive, PlayarStatisistics blueDefensive, int goalsRed, int goalsBlue, int gamesPrPlayer)
+        public ScoreResult Calculate(PlayarStatisistics redOffensive, PlayarStatisistics redDefensive, PlayarStatisistics blueOffensive, PlayarStatisistics blueDefensive, int goalsRed, int goalsBlue, int gamesPrPlayer, DateTime dateTime)
         {
             var existingRed = redOffensive.Score + redDefensive.Score;
             var existingBlue = blueOffensive.Score + blueDefensive.Score;
@@ -21,7 +21,7 @@ namespace FoossballPlayars.Services
                 winningPrice = b/2;
             }
             winningPrice = Math.Max(minimumScore, winningPrice);
-            return GetScoreResult(redOffensive, redDefensive, blueOffensive, blueDefensive, goalsRed, goalsBlue, winningPrice);
+            return GetScoreResult(redOffensive, redDefensive, blueOffensive, blueDefensive, goalsRed, goalsBlue, winningPrice, dateTime);
         }
 
         private static bool FavoriteTeamHasWon(double scoreRed, double scoreBlue, double existingBlue, double existingRed)

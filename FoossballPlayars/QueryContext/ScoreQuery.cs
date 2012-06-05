@@ -10,7 +10,7 @@ namespace FoossballPlayars.QueryContext
 	{
 	    private readonly ISignaler _signaler;
         private readonly IScoreCalculator _scoreCalculator;
-        private readonly IDictionary<Guid, PlayarStatisistics> _playars = new Dictionary<Guid, PlayarStatisistics>();
+        private readonly IDictionary<Guid, PlayarStatisistics> _playerCache = new Dictionary<Guid, PlayarStatisistics>();
 		private readonly IList<Activity> _activitites = new List<Activity>();
         public Tuple<PlayarName, PlayarName> CurrentVinkekat { get; private set; }
 
@@ -32,52 +32,58 @@ namespace FoossballPlayars.QueryContext
 
         public void AddPlayar(Guid id, PlayarName name, DateTime timestamp)
 		{
-            _playars.Add(id, new PlayarStatisistics(id, name));
+            _playerCache.Add(id, new PlayarStatisistics(id, name));
             AddActivity(new Activity(name + " was registered.", timestamp));
             _playerCount++;
 		}
 
         public void Handle(GamePlayed @event)
         {
-            if (@event.ScoreBlue == 0)
-            {
-                CurrentVinkekat = new Tuple<PlayarName, PlayarName>(GetName(@event.BlueOffensive), GetName(@event.BlueDefensive));
-            }
-            if (@event.ScoreRed == 0)
-            {
-                CurrentVinkekat = new Tuple<PlayarName, PlayarName>(GetName(@event.RedOffensive), GetName(@event.RedDefensive));
-            }
-            if (@event.ScoreBlue == 1 || @event.ScoreRed == 1)
-            {
-                AddActivity(new Activity("A vinkekat was close!", @event.Date));
-            }
-            _gamesPlayed++;
-            var result = _scoreCalculator.Calculate(LoadScore(@event.RedOffensive),
-                                                    LoadScore(@event.RedDefensive),
-                                                    LoadScore(@event.BlueOffensive),
-                                                    LoadScore(@event.BlueDefensive),
+			_gamesPlayed++;
+			HandleVinkekatSituations(@event);
+            var result = _scoreCalculator.Calculate(_playerCache[@event.RedOffensive],
+                                                    _playerCache[@event.RedDefensive],
+                                                    _playerCache[@event.BlueOffensive],
+                                                    _playerCache[@event.BlueDefensive],
                                                     @event.ScoreRed,
                                                     @event.ScoreBlue,
-                                                    _gamesPlayed/_playerCount);
-            var story= GetFormattedStory(@event, result);
-            _activitites.Add(story);
-            SetScore(result, story, @event.RedWinner);
+													_gamesPlayed / _playerCount, @event.Date);
+            _activitites.Add(result.Story);
+            SetScore(result, @event.RedWinner);
         	UpdateMinMax(result);
         }
 
+    	private void HandleVinkekatSituations(GamePlayed @event)
+    	{
+    		if (@event.ScoreBlue == 0)
+    		{
+    			CurrentVinkekat = new Tuple<PlayarName, PlayarName>(_playerCache[@event.BlueOffensive].Name,
+    			                                                    _playerCache[@event.BlueDefensive].Name);
+    		}
+    		if (@event.ScoreRed == 0)
+    		{
+    			CurrentVinkekat = new Tuple<PlayarName, PlayarName>(_playerCache[@event.RedOffensive].Name,
+    			                                                    _playerCache[@event.RedDefensive].Name);
+    		}
+    		if (@event.ScoreBlue == 1 || @event.ScoreRed == 1)
+    		{
+    			AddActivity(new Activity("A vinkekat was close!", @event.Date));
+    		}
+    	}
+
     	public IEnumerable<PlayarStatisistics> GetTopPlayers()
         {
-            return _playars.Values.OrderByDescending(x=>x.Score).Take(10);
+            return _playerCache.Values.OrderByDescending(x=>x.Score).Take(10);
         }
 
 		public IEnumerable<PlayarStatisistics> GetAllPlayers()
 		{
-			return _playars.Values.OrderByDescending(x => x.Score);
+			return _playerCache.Values.OrderByDescending(x => x.Score);
 		}
 
     	public PlayarStatisistics GetStatistics(Guid id)
         {
-            return _playars[id];
+            return _playerCache[id];
         }
 
     	public IEnumerable<Activity> GetActivities()
@@ -117,60 +123,12 @@ namespace FoossballPlayars.QueryContext
     		}
     	}
 
-    	private void SetScore(ScoreResult result, Activity story, bool redWinner)
+    	private void SetScore(ScoreResult result, bool redWinner)
     	{
-    		_playars[result.RedOffensive.Id].UpdateScore(result.RedOffensive.ScoreCount, story, redWinner, true);
-    		_playars[result.RedDefensive.Id].UpdateScore(result.RedDefensive.ScoreCount, story, redWinner, false);
-    		_playars[result.BlueOffensive.Id].UpdateScore(result.BlueOffensive.ScoreCount, story, !redWinner, true);
-    		_playars[result.BlueDefensive.Id].UpdateScore(result.BlueDefensive.ScoreCount, story, !redWinner, false);
-
+			_playerCache[result.RedOffensive.Id].UpdateScore(result.RedOffensive.ScoreCount, result.Story, redWinner, true);
+			_playerCache[result.RedDefensive.Id].UpdateScore(result.RedDefensive.ScoreCount, result.Story, redWinner, false);
+			_playerCache[result.BlueOffensive.Id].UpdateScore(result.BlueOffensive.ScoreCount, result.Story, !redWinner, true);
+			_playerCache[result.BlueDefensive.Id].UpdateScore(result.BlueDefensive.ScoreCount, result.Story, !redWinner, false);
     	}
-
-    	private Activity GetFormattedStory(GamePlayed @event, ScoreResult result)
-    	{
-    		if (@event.ScoreRed > @event.ScoreBlue)
-    		{
-    			if (@event.ScoreBlue == 0)
-    				return new Activity(string.Format("{0} and {1} gave vinkekat to {3} and {4} scoreing {2} points.",
-    				                                  GetName(@event.RedOffensive),
-    				                                  GetName(@event.RedDefensive),
-    				                                  result.Points,
-    				                                  GetName(@event.BlueOffensive),
-    				                                  GetName(@event.BlueDefensive)),
-    				                    @event.Date);
-    			return new Activity(string.Format("{0} and {1} won {2} points against {3} and {4} ({5} - {6})",
-    			                                  GetName(@event.RedOffensive),
-    			                                  GetName(@event.RedDefensive),
-    			                                  result.Points,
-    			                                  GetName(@event.BlueOffensive),
-    			                                  GetName(@event.BlueDefensive),
-    			                                  @event.ScoreRed,
-    			                                  @event.ScoreBlue),
-    			                    @event.Date);
-    		}
-    		return new Activity(string.Format("{0} and {1} won {2} points against {3} and {4} ({5} - {6})",
-    		                                  GetName(@event.BlueOffensive),
-    		                                  GetName(@event.BlueDefensive),
-    		                                  result.Points,
-    		                                  GetName(@event.RedOffensive),
-    		                                  GetName(@event.RedDefensive),
-    		                                  @event.ScoreBlue,
-    		                                  @event.ScoreRed),
-    		                    @event.Date
-    			);
-    	}
-
-    	private PlayarStatisistics LoadScore(Guid id)
-    	{
-    		return  _playars[id];
-    	}
-
-		private PlayarName GetName(Guid id)
-		{
-			return _playars[id].Name;
-		}
-
 	}
-
-
 }
