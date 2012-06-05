@@ -5,7 +5,7 @@ namespace FoossballPlayars.QueryContext
 {
     public class PlayarStatisistics
     {
-    	public const int InitialScore = 0;
+    	public const double InitialScore = 0;
     	public const int InplayGames = 10;
 
     	public Guid Id { get; private set; }

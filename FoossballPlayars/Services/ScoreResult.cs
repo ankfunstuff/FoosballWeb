@@ -20,7 +20,7 @@ namespace FoossballPlayars.Services
         public Score BlueOffensive { get; private set; }
         public Score BlueDefensive { get; private set; }
 
-        public double Points { get; private set; }
-		public Activity Story { get; set; }
+		private double Points { get; set; }
+		public Activity Story { get; private set; }
 	}
 }

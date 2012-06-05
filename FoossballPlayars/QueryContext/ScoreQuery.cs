@@ -14,8 +14,7 @@ namespace FoossballPlayars.QueryContext
 		private readonly IList<Activity> _activitites = new List<Activity>();
         public Tuple<PlayarName, PlayarName> CurrentVinkekat { get; private set; }
 
-    	private double _lowestHistoricalScore;
-    	private double _highestHistoricalScore;
+    	private readonly MinMaxCache<double> _minMaxCache;
 
         private int _gamesPlayed;
         private int _playerCount;
@@ -26,8 +25,7 @@ namespace FoossballPlayars.QueryContext
 	        _scoreCalculator = scoreCalculator;
 	        _gamesPlayed = 0;
 	        _playerCount = 0;
-	    	_highestHistoricalScore = PlayarStatisistics.InitialScore;
-			_lowestHistoricalScore = PlayarStatisistics.InitialScore;
+			_minMaxCache = new MinMaxCache<double>(PlayarStatisistics.InitialScore, PlayarStatisistics.InitialScore);
 	    }
 
         public void AddPlayar(Guid id, PlayarName name, DateTime timestamp)
@@ -50,7 +48,7 @@ namespace FoossballPlayars.QueryContext
 													_gamesPlayed / _playerCount, @event.Date);
             _activitites.Add(result.Story);
             SetScore(result, @event.RedWinner);
-        	UpdateMinMax(result);
+			_minMaxCache.Update(result.BlueDefensive.ScoreCount, result.BlueOffensive.ScoreCount, result.RedDefensive.ScoreCount, result.RedOffensive.ScoreCount);
         }
 
     	private void HandleVinkekatSituations(GamePlayed @event)
@@ -95,12 +93,12 @@ namespace FoossballPlayars.QueryContext
 
 		public double GetLowestHistoricalScore()
 		{
-			return _lowestHistoricalScore;
+			return _minMaxCache.Min;
 		}
 
 		public double GetHighestHistoricalScore()
 		{
-			return _highestHistoricalScore;
+			return _minMaxCache.Max;
 		}
 
     	private void AddActivity(Activity activity)
@@ -108,20 +106,6 @@ namespace FoossballPlayars.QueryContext
 	        _activitites.Add(activity);
             _signaler.Signal();
         }
-
-    	private void UpdateMinMax(ScoreResult result)
-    	{
-    		var localMax = Math.Max(Math.Max(result.BlueDefensive.ScoreCount, result.BlueOffensive.ScoreCount), Math.Max(result.RedDefensive.ScoreCount, result.RedOffensive.ScoreCount));
-    		var localMin = Math.Min(Math.Min(result.BlueDefensive.ScoreCount, result.BlueOffensive.ScoreCount), Math.Min(result.RedDefensive.ScoreCount, result.RedOffensive.ScoreCount));
-    		if (localMax > _highestHistoricalScore)
-    		{
-    			_highestHistoricalScore = localMax;
-    		}
-    		if (localMin < _lowestHistoricalScore)
-    		{
-    			_lowestHistoricalScore = localMin;
-    		}
-    	}
 
     	private void SetScore(ScoreResult result, bool redWinner)
     	{

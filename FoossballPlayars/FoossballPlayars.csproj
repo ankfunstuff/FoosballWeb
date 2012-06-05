@@ -55,6 +55,7 @@
     <Compile Include="QueryContext\Activity.cs" />
     <Compile Include="QueryContext\ISignaler.cs" />
     <Compile Include="QueryContext\GamePercentage.cs" />
+    <Compile Include="QueryContext\MinMaxCache.cs" />
     <Compile Include="QueryContext\Streak.cs" />
     <Compile Include="QueryContext\Teams\Team.cs" />
     <Compile Include="QueryContext\Teams\TeamService.cs" />
