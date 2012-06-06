@@ -57,7 +57,7 @@ namespace RavenPersistance
             }
         }
 
-        public void Append<TAggregateRoot>(Guid id, IEnumerable<Event> events) where TAggregateRoot : AggregateRoot
+        public virtual void Append<TAggregateRoot>(Guid id, IEnumerable<Event> events) where TAggregateRoot : AggregateRoot
         {
             using (var session = _documentStore.OpenSession())
             {
