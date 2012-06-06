@@ -4,8 +4,8 @@ namespace FoossballPlayars.Services
 {
     public class EloRating
     {
-        private const int KFactor = 400;
-        private const int EFactor = 60;
+        private const int KFactor = 800;
+        private const int EFactor = 30;
         public double Point1 { get; private set; }
         public double Point2 { get; private set; }
 

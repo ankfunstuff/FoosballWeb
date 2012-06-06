@@ -16,7 +16,7 @@ namespace FoossballPlayars.Services
 		{
 			if (playar.Total.GamesPlayed > PlayarStatisistics.InplayGames)
 				return base.GetWinningScore(playar, winningPrice);
-			return base.GetWinningScore(playar, 300);
+			return base.GetWinningScore(playar, PlayarStatisistics.InplayScore);
 		}
 
 		protected override Events.Score GetLoosingScore(PlayarStatisistics playar, double winningPrice)
