@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Ankiro.Framework.Queuing;
 
 namespace FoossballPlayars.QueryContext
 {
@@ -8,9 +9,11 @@ namespace FoossballPlayars.QueryContext
     	public const double InitialScore = 0;
     	public const int InplayGames = 10;
 
+    	private const int KeepLatestResults = 100;
+
     	public Guid Id { get; private set; }
         public PlayarName Name { get; private set; }
-        public IList<Tuple<double, Activity>> ScoreHistory { get; private set; }
+        public LimitedQueue<Tuple<double, Activity>> ScoreHistory { get; private set; }
         public double Score { get; private set; }
     	public GamePercentage Offensive { get; private set; }
     	public GamePercentage Defensive { get; private set; }
@@ -50,7 +53,7 @@ namespace FoossballPlayars.QueryContext
             Id = id;
             Name = name;
             Score = InitialScore;
-            ScoreHistory = new List<Tuple<double, Activity>>();
+            ScoreHistory = new LimitedQueue<Tuple<double, Activity>>(KeepLatestResults);
 			Offensive = new GamePercentage();
 			Defensive = new GamePercentage();
 			Total = new GamePercentage();
@@ -61,7 +64,7 @@ namespace FoossballPlayars.QueryContext
 		public void UpdateScore(double score, Activity activity, bool winner, bool isOffence)
         {
             Score = score;
-			ScoreHistory.Add(new Tuple<double, Activity>(score, activity));
+			ScoreHistory.Enqueue(new Tuple<double, Activity>(score, activity));
             if (winner)
             {
 				Total.AddVictory();
