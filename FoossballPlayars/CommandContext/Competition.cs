@@ -76,10 +76,10 @@ namespace FoossballPlayars.CommandContext
 
         private void CheckPlayar(Guid id)
         {
-            if (!_players.Contains(id))
-            {
-                throw new InvalidOperationException("Playar id not found " + id);
-            }
+			//if (!_players.Contains(id) || )
+			//{
+			//	throw new InvalidOperationException("Playar id not found " + id);
+			//}
         }
 
         public void AddPlayer(Guid id)
