@@ -6,6 +6,7 @@ using FoossballPlayars.Events;
 
 namespace FoossballPlayars.CommandContext
 {
+
     public class Competition : AggregateRoot
     {
         private readonly Guid _id;
